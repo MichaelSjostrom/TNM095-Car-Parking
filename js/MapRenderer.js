@@ -1,23 +1,31 @@
-define(function(){
-	return {draw: function(){
 
-		console.log("heej");
+class MapRenderer{
+	constructor(canvas, map){
+
+		this.width = canvas.getAttribute('width');
+		this.height = canvas.getAttribute('height');
+		this.map = map;
+		this.context = canvas.getContext('2d');
+		this.tileSize = 24;
+	};
+
+	draw(){
 		var self = this;
-		this.context.clearRect(0, 0, this.w, this.h);
+
+		this.context.clearRect(0, 0, this.width, this.height);
 		this.context.fillStyle = "rgba(255,0,0,0.6)";
-		_(this.map).each(function(row,i){
-			_(row).each(function(tile,j){
-				if(tile !== 0){ //if tile is not walkable
-					self.drawTile(j,i); //draw a rectangle at j,i
+
+		this.map.forEach(function(row,i){
+			row.forEach(function(tile,j){
+				if(tile !== 0 ){
+					self.drawTile(i, j);
 				}
 			});
 		});
-	}},
-	return {drawTile: function(x,y){
-		this.context.fillRect(
-			x * this.tileSize, y * this.tileSize,
-			this.tileSize, this.tileSize
-		);
 	}
 
-}});
+	drawTile(x,y){
+		this.context.fillRect(x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize);
+	}
+
+}
