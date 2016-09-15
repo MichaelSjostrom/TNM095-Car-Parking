@@ -1,5 +1,4 @@
 define(function(){
-
 	return {draw: function(){
 
 		console.log("heej");
