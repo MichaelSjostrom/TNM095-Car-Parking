@@ -7,19 +7,36 @@ class MapRenderer{
 		this.map = map;
 		this.context = canvas.getContext('2d');
 		this.tileSize = 24;
+
 	};
 
 	draw(){
 		var self = this;
+		this.colorTaken = "rgba(255,0,0,0.6)";
+		this.colorOpen = "rgba(0,255,0,0.6)";
+		this.colorDriveWay = "rgba(155,155,155,0.6)";
 
 		this.context.clearRect(0, 0, this.width, this.height);
-		this.context.fillStyle = "rgba(255,0,0,0.6)";
+
 
 		this.map.forEach(function(row,i){
 			row.forEach(function(tile,j){
-				if(tile !== 0 ){
+				if(tile.getType == 'road' ){
+					self.context.fillStyle = self.colorDriveWay;
 					self.drawTile(i, j);
 				}
+				else if(tile.getType == 'parking'){
+					if(tile.isTaken == true){
+						self.context.fillStyle = self.colorTaken;
+						self.drawTile(i,j);
+
+					}
+					else if(tile.isTaken == false){
+						self.context.fillStyle = self.colorOpen;
+						self.drawTile(i,j);
+					}
+				}
+
 			});
 		});
 	}
