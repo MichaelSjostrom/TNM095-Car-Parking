@@ -6,9 +6,9 @@ class Car {
     this.context = canvas.getContext('2d');
     this.xPos = this.yPos = 10;
     this.requestId = 'hej';
-    this.context.fillStyle = 'red';
+    this.context.fillStyle = 'blue';
     this.counter = 0;
-    this.carSize = { xSize: 10, ySize: 15 };
+    this.carSize = { xSize: 15, ySize: 10 };
   }
 
   renderCar(xPos, yPos) {
