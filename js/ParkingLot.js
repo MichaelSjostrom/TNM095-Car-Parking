@@ -18,12 +18,16 @@ class ParkingLot{
         indexCounter++;
         }
       }
-      
+
     return result;
   }
 
   get getMap(){
     return this.map;
+  }
+  
+  getTile(x, y){
+    return this.map[x][y];
   }
 
 }

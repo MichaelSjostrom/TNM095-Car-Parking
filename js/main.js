@@ -22,13 +22,17 @@ function run(){
 
   mapCanvas.addEventListener('mousemove', function(evt){
     var mousePos = getMousePos(canvas, evt);
-    writeMessage(mousePos);
+    var tile = parkingLot.getTile(mousePos.x, mousePos.y); 
+
+    console.log(tile.getIndex);
+    //writeMessage(mousePos);
   }, false);
 
 }
 run();
 
 function getMousePos(canvas, evt) {
+  //Magiskt nummer, hittar inte varför canvas har en offset. 
   var posX = evt.clientX - 7;
   var posY = evt.clientY - 7;
 
@@ -39,6 +43,6 @@ function getMousePos(canvas, evt) {
 }
 
 function writeMessage(mousePos) {
-  var tile = parkingLot.getMap[mousePos.x][mousePos.y];
-  console.log(tile.getIndex);
+
+
 }
