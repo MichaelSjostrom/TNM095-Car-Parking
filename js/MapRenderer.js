@@ -29,24 +29,27 @@ class MapRenderer{
 					if(tile.isTaken == true){
 						self.context.fillStyle = self.colorTaken;
 						self.drawTile(i,j);
-
 					}
 					else if(tile.isTaken == false){
 						self.context.fillStyle = self.colorOpen;
 						self.drawTile(i,j);
 					}
+						self.drawParkingLines(i, j);
 				}
 
 				self.context.fillText(tile.getIndex, i*self.tileSize + 3 , j*self.tileSize + 12);
 
 			});
 		});
+
 	}
 
 	drawTile(x,y){
 		this.context.fillRect(x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize);
 
-		this.context.beginPath();
+		//Code used for dividing all tiles with strokes
+		
+		/*this.context.beginPath();
 		this.context.moveTo(x * this.tileSize, y);
 		this.context.lineTo(x * this.tileSize, y * this.tileSize);
 		this.context.stroke();
@@ -54,8 +57,18 @@ class MapRenderer{
 		this.context.beginPath();
 		this.context.moveTo(x , y * this.tileSize);
 		this.context.lineTo(x * this.tileSize, y * this.tileSize);
-		this.context.stroke();
+		this.context.stroke();*/
+		
+	}
 
+	drawParkingLines(x, y){
+
+		//Draws an up-side-down "L" with strokes och each parking space
+		this.context.beginPath();
+		this.context.moveTo(x * this.tileSize , y * this.tileSize + this.tileSize);
+		this.context.lineTo(x * this.tileSize, y * this.tileSize);
+		this.context.lineTo(x * this.tileSize + this.tileSize, y * this.tileSize);
+		this.context.stroke();
 	}
 
 }
