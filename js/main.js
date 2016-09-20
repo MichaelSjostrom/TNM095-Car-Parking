@@ -15,10 +15,16 @@ function run(){
 		canvases.push(canvas);
 	}
 
-
   var mapCanvas = document.getElementsByTagName("canvas")[0];
   var mapRenderer = new MapRenderer(mapCanvas, tileMap);
   mapRenderer.draw();
+
+  mapCanvas.addEventListener('mousemove', function(evt){
+    var mousePos = getMousePos(canvas, evt);
+    //var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+    writeMessage(mousePos);
+  }, false);
+
 }
 run();
 
@@ -42,4 +48,18 @@ function createParkingLot(){
   return result;
 }
 
+function getMousePos(canvas, evt) {
+  //console.log("left = " + canvas.offsetLeft + " top = " + canvas.offsetTop);
+  var posX = evt.clientX - 7;// - canvas.offsetLeft;
+  var posY = evt.clientY - 7;//- canvas.offsetTop;
 
+  return {
+    x: Math.floor(posX/tileSize),
+    y: Math.floor(posY/tileSize)
+  };
+}
+
+function writeMessage(mousePos) {
+  var tile = tileMap[mousePos.x][mousePos.y];
+  console.log(tile.getIndex);
+}

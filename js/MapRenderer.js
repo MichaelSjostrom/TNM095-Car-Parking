@@ -37,12 +37,25 @@ class MapRenderer{
 					}
 				}
 
+				self.context.fillText(tile.getIndex, i*self.tileSize + 3 , j*self.tileSize + 12);
+
 			});
 		});
 	}
 
 	drawTile(x,y){
 		this.context.fillRect(x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize);
+
+		this.context.beginPath();
+		this.context.moveTo(x * this.tileSize, y);
+		this.context.lineTo(x * this.tileSize, y * this.tileSize);
+		this.context.stroke();
+
+		this.context.beginPath();
+		this.context.moveTo(x , y * this.tileSize);
+		this.context.lineTo(x * this.tileSize, y * this.tileSize);
+		this.context.stroke();
+
 	}
 
 }
