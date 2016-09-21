@@ -14,7 +14,7 @@ class ParkingLot{
         if(j%2 != 0 &&i !== 0 && i !== 19){
           result[i][j] = new Tile(true, 'parking', indexCounter);
         } else {
-          result[i][j] = new Tile(true, 'road', indexCounter);
+          result[i][j] = new Tile(true, 'road', indexCounter, i, j);
         }
         indexCounter++;
         }
