@@ -27,7 +27,7 @@ class ParkingLot{
     return this.map;
   }
 
-  getTile(x, y){
+  getTile(x, y) {
     return this.map[x][y];
   }
 
