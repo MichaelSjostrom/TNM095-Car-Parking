@@ -30,19 +30,23 @@ function run() {
 
 	car = new Car(carCanvas);
 
+  car.renderCar(0, 0);
+
   var mapCanvas = document.getElementsByTagName("canvas")[0];
   mapRenderer = new MapRenderer(mapCanvas, parkingLot.getMap);
   mapRenderer.draw();
 
   //Listens when the mouse is moved over the canvas
-  mapCanvas.addEventListener('mousemove', function(evt){
+  carCanvas.addEventListener('mousemove', function(evt){
     mousePos = mouse.getMousePos(canvas, evt);
     var tile = parkingLot.getTile(mousePos.x, mousePos.y);
+
+    console.log(tile.getIndex);
 
   }, false);
 
   //Listens when a click occurs, used to to switch between free and taken parking spaces
-  mapCanvas.addEventListener('click', function(){
+  carCanvas.addEventListener('click', function(){
     var tile = parkingLot.getTile(mousePos.x, mousePos.y);
 
     if(tile.getType == 'parking'){
@@ -51,7 +55,7 @@ function run() {
       } else {
         tile.setTaken(true);
       }
-      mapRenderer.draw();
+      mapRenderer.update(tile);
     }
   });
 

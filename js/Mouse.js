@@ -6,8 +6,8 @@ class Mouse{
 
   getMousePos(canvas, evt) {
     //Magiskt nummer, hittar inte varför canvas har en offset.
-    var posX = evt.clientX - 7;
-    var posY = evt.clientY - 7;
+    var posX = evt.clientX;
+    var posY = evt.clientY;
 
     return {
       x: Math.floor(posX/tileSize),

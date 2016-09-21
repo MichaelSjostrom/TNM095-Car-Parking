@@ -5,10 +5,7 @@ class Car {
     this.height = canvas.getAttribute('height');
     this.context = canvas.getContext('2d');
     this.context.translate(1, 1);
-    this.xPos = this.yPos = 0;
-    this.requestId = 'hej';
     this.context.fillStyle = 'blue';
-    this.counter = 0;
     this.carSize = { xSize: 22, ySize: 22 };
   }
 
@@ -20,16 +17,9 @@ class Car {
   }
 
   moveX(variable) {
-    this.counter++;
-
     this.xPos = variable > 0 ? this.xPos + 1 : this.xPos - 1;
 
-    // We need different constrains here and the pos needs to rely on the tiles
-    if (this.xPos > this.width - 5) {
-      this.xPos = 0;
-    }
-
-    if (this.requestId && this.counter < 24) {
+    if (this.xPos % 24 != 0) {
       // Clear previous frame
       this.context.clearRect(0, 0, this.width, this.height);
 
@@ -40,22 +30,14 @@ class Car {
       var self = this;
       window.requestAnimFrame(function() { self.moveX(variable); });
 
-    } else {
-      this.counter = 0;
     }
   }
 
   moveY(variable) {
-    this.counter++;
 
     this.yPos = variable > 0 ? this.yPos + 1 : this.yPos - 1;
 
-    // We need different constrains here and the pos needs to rely on the tiles
-    if (this.yPos > this.width - 5) {
-      this.yPos = 0;
-    }
-
-    if (this.requestId && this.counter < 24) {
+    if (this.yPos % 24 != 0) {
       // Clear previous frame
       this.context.clearRect(0, 0, this.width, this.height);
 
@@ -66,8 +48,6 @@ class Car {
       var self = this;
       window.requestAnimFrame(function() { self.moveY(variable); });
 
-    } else {
-      this.counter = 0;
     }
   }
 
