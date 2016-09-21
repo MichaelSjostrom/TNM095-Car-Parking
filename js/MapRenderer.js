@@ -48,7 +48,7 @@ class MapRenderer{
 		this.context.fillRect(x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize);
 
 		//Code used for dividing all tiles with strokes
-		
+
 		/*this.context.beginPath();
 		this.context.moveTo(x * this.tileSize, y);
 		this.context.lineTo(x * this.tileSize, y * this.tileSize);
@@ -58,7 +58,7 @@ class MapRenderer{
 		this.context.moveTo(x , y * this.tileSize);
 		this.context.lineTo(x * this.tileSize, y * this.tileSize);
 		this.context.stroke();*/
-		
+
 	}
 
 	drawParkingLines(x, y){
