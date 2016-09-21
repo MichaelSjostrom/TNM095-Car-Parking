@@ -55,13 +55,14 @@ function run() {
       }
       mapRenderer.update(tile);
     }
+
+
+    astar.search(startPos, tile);
   });
 
   astar = new Astar(parkingLot);
 
   var startPos = parkingLot.getTile(0, 0);
-
-  astar.search(startPos);
 }
 run();
 
