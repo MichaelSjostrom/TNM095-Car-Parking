@@ -4,11 +4,12 @@ class Car {
     this.width = canvas.getAttribute('width');
     this.height = canvas.getAttribute('height');
     this.context = canvas.getContext('2d');
+    this.context.translate(1, 1);
     this.xPos = this.yPos = 0;
     this.requestId = 'hej';
     this.context.fillStyle = 'blue';
     this.counter = 0;
-    this.carSize = { xSize: 15, ySize: 10 };
+    this.carSize = { xSize: 22, ySize: 22 };
   }
 
   renderCar(xPos, yPos) {
@@ -21,8 +22,6 @@ class Car {
   moveX(variable) {
     this.counter++;
 
-    this.carSize = { xSize: 15, ySize: 10 };
-
     this.xPos = variable > 0 ? this.xPos + 1 : this.xPos - 1;
 
     // We need different constrains here and the pos needs to rely on the tiles
@@ -30,7 +29,7 @@ class Car {
       this.xPos = 0;
     }
 
-    if (this.requestId && this.counter < 10) {
+    if (this.requestId && this.counter < 24) {
       // Clear previous frame
       this.context.clearRect(0, 0, this.width, this.height);
 
@@ -49,8 +48,6 @@ class Car {
   moveY(variable) {
     this.counter++;
 
-    this.carSize = { xSize: 10, ySize: 15 };
-
     this.yPos = variable > 0 ? this.yPos + 1 : this.yPos - 1;
 
     // We need different constrains here and the pos needs to rely on the tiles
@@ -58,7 +55,7 @@ class Car {
       this.yPos = 0;
     }
 
-    if (this.requestId && this.counter < 10) {
+    if (this.requestId && this.counter < 24) {
       // Clear previous frame
       this.context.clearRect(0, 0, this.width, this.height);
 

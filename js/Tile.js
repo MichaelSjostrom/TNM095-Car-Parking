@@ -16,5 +16,13 @@ class Tile{
 
   get getType(){
     return this.type;
-  }
+  };
+
+  setTaken(boolean){
+    this.taken = boolean;
+  };
+
+  setType(type){
+    this.type = type;
+  };
 }

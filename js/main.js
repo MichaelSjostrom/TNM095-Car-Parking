@@ -10,28 +10,54 @@ var body = document.getElementsByTagName('body')[0];
 var canvases = [];
 var bgRenderer;
 
-var tileMap = createParkingLot();
+var parkingLot = new ParkingLot();
+var mouse = new Mouse();
+var mousePos;
+var mapRenderer;
 
 var car;
 
-function run(){
+function run() {
 	// build layers
-
-	for (var i = 0, len = 2; i < len; i++) {
-    var canvas = '<canvas width="'+(tileMap.length * tileSize)+'" height="'+(tileMap[0].length * tileSize)+'" z-index="'+i+'" class="gamecanvas canvas'+ i +'" style="position: absolute;"/>';
-		body.innerHTML += canvas;
-		canvases.push(canvas);
-	}
-
+  var width = parkingLot.getMap.length;
+  var height = parkingLot.getMap[0].length;
+  for (var i = 0, len = 2; i < len; i++) {
+    var canvas = '<canvas width="'+(width * tileSize)+'" height="'+(height * tileSize)+'" z-index="'+i+'" class="gamecanvas canvas'+ i +'" style="position: absolute;"/>';
+    body.innerHTML += canvas;
+    canvases.push(canvas);
+  }
 	var carCanvas = document.getElementsByTagName('canvas')[1];
 
 	car = new Car(carCanvas);
 
   var mapCanvas = document.getElementsByTagName("canvas")[0];
-  var mapRenderer = new MapRenderer(mapCanvas, tileMap);
+  mapRenderer = new MapRenderer(mapCanvas, parkingLot.getMap);
   mapRenderer.draw();
+
+  //Listens when the mouse is moved over the canvas
+  mapCanvas.addEventListener('mousemove', function(evt){
+    mousePos = mouse.getMousePos(canvas, evt);
+    var tile = parkingLot.getTile(mousePos.x, mousePos.y);
+
+  }, false);
+
+  //Listens when a click occurs, used to to switch between free and taken parking spaces
+  mapCanvas.addEventListener('click', function(){
+    var tile = parkingLot.getTile(mousePos.x, mousePos.y);
+
+    if(tile.getType == 'parking'){
+      if(tile.isTaken == true){
+          tile.setTaken(false);
+      } else {
+        tile.setTaken(true);
+      }
+      mapRenderer.draw();
+    }
+  });
+
 }
 run();
+
 
 window.onkeyup = function(e) {
   var key = e.keyCode ? e.keyCode : e.which;
@@ -58,27 +84,4 @@ window.onkeyup = function(e) {
     default:
       return;
   }
-
 }
-
-//Ful som fan men funkar så länge
-function createParkingLot(){
-  var result = [];
-  var indexCounter = 0;
-  for( var i = 0; i < 40; i++){
-    result[i] = [];
-    for( var j = 0; j < 24; j++){
-      if(j%2 == 0 && j !== 0 &&i !== 0 && i !== 39){
-        result[i][j] = new Tile(true, 'parking', indexCounter);
-      } else {
-        result[i][j] = new Tile(true, 'road', indexCounter);
-      }
-      indexCounter++;
-      }
-    }
-
-
-  return result;
-}
-
-
