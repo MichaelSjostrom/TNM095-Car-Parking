@@ -4,9 +4,9 @@ class Car {
     this.width = canvas.getAttribute('width');
     this.height = canvas.getAttribute('height');
     this.context = canvas.getContext('2d');
-    this.context.translate(1, 1);
     this.context.fillStyle = 'blue';
     this.carSize = { xSize: 22, ySize: 22 };
+    this.isParked = false;
   }
 
   renderCar(xPos, yPos) {
@@ -17,9 +17,8 @@ class Car {
   }
 
   moveX(variable) {
-    this.xPos = variable > 0 ? this.xPos + 1 : this.xPos - 1;
-
-    if (this.xPos % 24 != 0) {
+    this.xPos += variable;
+    if ((this.xPos + variable) % 24 != 0) {
       // Clear previous frame
       this.context.clearRect(0, 0, this.width, this.height);
 
@@ -27,17 +26,13 @@ class Car {
       this.renderCar(this.xPos, this.yPos);
 
       // Do again
-      var self = this;
-      window.requestAnimFrame(function() { self.moveX(variable); });
-
+      window.requestAnimFrame(() => { this.moveX(variable); });
     }
   }
 
   moveY(variable) {
-
-    this.yPos = variable > 0 ? this.yPos + 1 : this.yPos - 1;
-
-    if (this.yPos % 24 != 0) {
+    this.yPos += variable;
+    if ((this.yPos + variable) % 24 != 0) {
       // Clear previous frame
       this.context.clearRect(0, 0, this.width, this.height);
 
@@ -45,15 +40,7 @@ class Car {
       this.renderCar(this.xPos, this.yPos);
 
       // Do again
-      var self = this;
-      window.requestAnimFrame(function() { self.moveY(variable); });
-
+      window.requestAnimFrame(() => { this.moveY(variable); });
     }
-  }
-
-  turnRight() {
-    this.context.translate(this.width / 2, this.height / 2);
-    this.context.rotate(90 * Math.PI / 180);
-    this.context.translate(this.xPos, this.yPos);
   }
 }
