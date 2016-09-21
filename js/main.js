@@ -5,6 +5,7 @@ var canvases = [];
 var bgRenderer;
 
 var parkingLot = new ParkingLot();
+var mouse = new Mouse();
 
 function run(){
 	// build layers
@@ -21,28 +22,12 @@ function run(){
   mapRenderer.draw();
 
   mapCanvas.addEventListener('mousemove', function(evt){
-    var mousePos = getMousePos(canvas, evt);
-    var tile = parkingLot.getTile(mousePos.x, mousePos.y); 
+    var mousePos = mouse.getMousePos(canvas, evt);
+    var tile = parkingLot.getTile(mousePos.x, mousePos.y);
 
     console.log(tile.getIndex);
-    //writeMessage(mousePos);
+
   }, false);
 
 }
 run();
-
-function getMousePos(canvas, evt) {
-  //Magiskt nummer, hittar inte varför canvas har en offset. 
-  var posX = evt.clientX - 7;
-  var posY = evt.clientY - 7;
-
-  return {
-    x: Math.floor(posX/tileSize),
-    y: Math.floor(posY/tileSize)
-  };
-}
-
-function writeMessage(mousePos) {
-
-
-}
