@@ -42,8 +42,7 @@ function run(){
       } else {
         tile.setTaken(true);
       }
-      mapRenderer.draw();
-
+      mapRenderer.update(tile);
     }
   });
 
