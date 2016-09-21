@@ -1,6 +1,7 @@
 class astar{
 
   constructor(){
+
   };
 
   neighbors(tile, map){
