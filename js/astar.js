@@ -4,7 +4,7 @@ class astar{
 
   };
 
-  neighbors(tile, map){
+  neighbors(tile){
     var result = [];
     var x = tile.getX;
     var y = tile.getY;
