@@ -49,19 +49,6 @@ class MapRenderer{
 	//Draws the tile
 	drawTile(x,y){
 		this.context.fillRect(x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize);
-
-		//Code used for dividing all tiles with strokes
-
-		/*this.context.beginPath();
-		this.context.moveTo(x * this.tileSize, y);
-		this.context.lineTo(x * this.tileSize, y * this.tileSize);
-		this.context.stroke();
-
-		this.context.beginPath();
-		this.context.moveTo(x , y * this.tileSize);
-		this.context.lineTo(x * this.tileSize, y * this.tileSize);
-		this.context.stroke();*/
-
 	}
 
 	//Draws an up-side-down "L" with strokes och each parking space
