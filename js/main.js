@@ -14,6 +14,7 @@ var parkingLot = new ParkingLot();
 var mouse = new Mouse();
 var mousePos;
 var mapRenderer;
+var astar;
 
 var car;
 
@@ -41,26 +42,22 @@ function run() {
     mousePos = mouse.getMousePos(canvas, evt);
     var tile = parkingLot.getTile(mousePos.x, mousePos.y);
 
-    console.log(tile.getIndex);
-
   }, false);
 
   //Listens when a click occurs, used to to switch between free and taken parking spaces
   carCanvas.addEventListener('click', function(){
     var tile = parkingLot.getTile(mousePos.x, mousePos.y);
-    console.log(tile);
     if(tile.getType == 'parking'){
       if(tile.isTaken == true){
           tile.setTaken(false);
       } else {
         tile.setTaken(true);
       }
-      console.log(tile);
       mapRenderer.update(tile);
     }
   });
 
-  var astar = new Astar(parkingLot);
+  astar = new Astar(parkingLot);
 
 }
 run();
