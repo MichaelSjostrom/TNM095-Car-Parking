@@ -12,6 +12,8 @@ var bgRenderer;
 
 var tileMap = createParkingLot();
 
+var car;
+
 function run(){
 	// build layers
 
@@ -23,15 +25,41 @@ function run(){
 
 	var carCanvas = document.getElementsByTagName('canvas')[1];
 
-	var car = new Car(carCanvas);
-
-	var reqId = car.startCar();
+	car = new Car(carCanvas);
 
   var mapCanvas = document.getElementsByTagName("canvas")[0];
   var mapRenderer = new MapRenderer(mapCanvas, tileMap);
   mapRenderer.draw();
 }
 run();
+
+window.onkeyup = function(e) {
+  var key = e.keyCode ? e.keyCode : e.which;
+
+  // Moving the car
+  // Should be done in a separate function where the AI controls this instead of keypresses
+  switch (key) {
+    // Negative x
+    case 37:
+      car.moveX(-1);
+      break;
+    // Negative y
+    case 38:
+      car.moveY(-1);
+      break;
+    // Positive x
+    case 39:
+      car.moveX(1);
+      break;
+    // Positive y
+    case 40:
+      car.moveY(1);
+      break;
+    default:
+      return;
+  }
+
+}
 
 //Ful som fan men funkar så länge
 function createParkingLot(){

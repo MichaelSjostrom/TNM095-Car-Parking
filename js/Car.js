@@ -15,54 +15,66 @@ class Car {
     this.xPos = xPos;
     this.yPos = yPos;
 
-    console.log(xPos, yPos);
-
     this.context.fillRect(xPos, yPos, this.carSize.xSize, this.carSize.ySize);
   }
 
-  startCar() {
-    var self = this;
-
-    window.requestAnimFrame(function() { self.animateCar(); });
-  }
-
-  animateCar() {
+  moveX(variable) {
     this.counter++;
 
-    this.xPos++;
+    this.carSize = { xSize: 15, ySize: 10 };
 
-    var self = this;
-    var otherReq = false;
+    this.xPos = variable > 0 ? this.xPos + 1 : this.xPos - 1;
+
     // We need different constrains here and the pos needs to rely on the tiles
-    if (self.counter == 100) {
-      this.xPos--;
-      var xPos = self.xPos;
-      var yPos = self.yPos;
-      console.log('turning');
-      otherReq = true;
-      window.requestAnimFrame(function() {
-        // Clear previous frame
-        self.context.clearRect(0, 0, self.width, self.height);
-        self.context.translate(self.width / 2, self.height / 2);
-        self.context.rotate(90 * Math.PI / 180);
-        self.renderCar(self.xPos, self.yPos);
-        self.context.translate((-1) * self.width / 2, (-1) * self.height / 2);
-        self.animateCar();
-      });
+    if (this.xPos > this.width - 5) {
+      this.xPos = 0;
     }
 
-    if (self.counter < 200 && !otherReq) {
-      console.log('fwd');
+    if (this.requestId && this.counter < 10) {
       // Clear previous frame
       this.context.clearRect(0, 0, this.width, this.height);
-      self.renderCar(self.xPos, self.yPos);
+
+      // Render car with new pos
+      this.renderCar(this.xPos, this.yPos);
+
       // Do again
-      window.requestAnimFrame(function() { self.animateCar(); });
+      var self = this;
+      window.requestAnimFrame(function() { self.moveX(variable); });
+
+    } else {
+      this.counter = 0;
+    }
+  }
+
+  moveY(variable) {
+    this.counter++;
+
+    this.carSize = { xSize: 10, ySize: 15 };
+
+    this.yPos = variable > 0 ? this.yPos + 1 : this.yPos - 1;
+
+    // We need different constrains here and the pos needs to rely on the tiles
+    if (this.yPos > this.width - 5) {
+      this.yPos = 0;
+    }
+
+    if (this.requestId && this.counter < 10) {
+      // Clear previous frame
+      this.context.clearRect(0, 0, this.width, this.height);
+
+      // Render car with new pos
+      this.renderCar(this.xPos, this.yPos);
+
+      // Do again
+      var self = this;
+      window.requestAnimFrame(function() { self.moveY(variable); });
+
+    } else {
+      this.counter = 0;
     }
   }
 
   turnRight() {
-    console.log('turning');
     this.context.translate(this.width / 2, this.height / 2);
     this.context.rotate(90 * Math.PI / 180);
     this.context.translate(this.xPos, this.yPos);
