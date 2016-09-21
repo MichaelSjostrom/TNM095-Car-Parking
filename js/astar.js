@@ -39,7 +39,8 @@ class Astar{
       for (var i = 0; i < neighbors.length; i++) {
         var neighbor = neighbors[i];
         var index2 = closedList.indexOf(neighbor);
-        if (index2 != -1) {
+        var isTaken = neighbor.isTaken && neighbor.type == 'parking';
+        if (index2 != -1 || isTaken) {
           console.log('this is not a valid node');
           continue;
         }
