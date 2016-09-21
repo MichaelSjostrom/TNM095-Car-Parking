@@ -7,6 +7,7 @@ window.requestAnimFrame = (function(callBack) {
 
 var tileSize = 24;
 var body = document.getElementsByTagName('body')[0];
+var canvasContainer = document.getElementsByClassName('container')[0]
 var canvases = [];
 var bgRenderer;
 
@@ -18,13 +19,15 @@ var astar;
 
 var car;
 
+var followMouse = true;
+
 function run() {
 	// build layers
   var width = parkingLot.getMap.length;
   var height = parkingLot.getMap[0].length;
   for (var i = 0, len = 2; i < len; i++) {
     var canvas = '<canvas width="'+(width * tileSize)+'" height="'+(height * tileSize)+'" z-index="'+i+'" class="gamecanvas canvas'+ i +'" style="position: absolute;"/>';
-    body.innerHTML += canvas;
+    canvasContainer.innerHTML += canvas;
     canvases.push(canvas);
   }
 	var carCanvas = document.getElementsByTagName('canvas')[1];
@@ -44,6 +47,9 @@ function run() {
     mousePos = mouse.getMousePos(canvas, evt);
     var tile = parkingLot.getTile(mousePos.x, mousePos.y);
 
+    /*if(followMouse == true){
+      astar.search(startPos, tile);
+    }*/
   }, false);
 
   //Listens when a click occurs, used to to switch between free and taken parking spaces
