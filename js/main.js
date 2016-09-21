@@ -60,6 +60,8 @@ function run() {
     }
   });
 
+  var astar = new Astar(parkingLot);
+
 }
 run();
 

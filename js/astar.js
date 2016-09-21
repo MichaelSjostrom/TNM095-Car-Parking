@@ -1,8 +1,12 @@
-class astar{
+class Astar{
 
-  constructor(){
-
+  constructor(parkingLot) {
+    this.parkingLot = parkingLot;
   };
+
+  search(startPos) {
+
+  }
 
   neighbors(tile){
     var result = [];
@@ -10,6 +14,9 @@ class astar{
     var y = tile.getY;
 
     //West
+  }
 
+  updateMap(parkingLot) {
+    this.parkingLot = parkingLot;
   }
 }
