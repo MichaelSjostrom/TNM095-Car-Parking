@@ -65,7 +65,7 @@ class Astar{
         }
       }
     }
-    console.log(result);
+    return result;
   }
 
   heuristic(curr, end) {

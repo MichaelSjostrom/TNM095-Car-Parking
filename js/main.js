@@ -55,14 +55,42 @@ function run() {
       }
       mapRenderer.update(tile);
     }
+    var startPos = {};
+    startPos.x = Math.floor(car.getX / tileSize);
+    startPos.y = Math.floor(car.getY / tileSize);
+    console.log(startPos);
 
+    var startTile = parkingLot.getTile(startPos.x, startPos.y);
+    var result = astar.search(startTile, tile);
 
-    astar.search(startPos, tile);
+    result.push(startTile.index);
+    result = result.reverse();
+
+    var path = [];
+
+    for (var i = 0; i < result.length - 1; i++) {
+      if (result[i + 1] == result[i] + 1) {
+        // Down
+        path.push({axis:'Y', dir:1});
+      }
+      else if (i > 0 && result[i] < result[i] - 1) {
+        // Up
+        path.push({axis:'Y', dir:-1});
+      }
+      else if (result[i + 1] > result[i] + 1) {
+        // Right
+        path.push({axis:'X', dir:1});
+      }
+      else {
+        // Left
+        path.push({axis:'X', dir:-1});
+      }
+    }
+
+    car.startAnimation(path);
   });
 
   astar = new Astar(parkingLot);
-
-  var startPos = parkingLot.getTile(0, 0);
 }
 run();
 

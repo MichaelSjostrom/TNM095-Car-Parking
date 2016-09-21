@@ -9,6 +9,14 @@ class Car {
     this.isParked = false;
   }
 
+  get getX() {
+    return this.xPos;
+  }
+
+  get getY() {
+    return this.yPos;
+  }
+
   renderCar(xPos, yPos) {
     this.xPos = xPos;
     this.yPos = yPos;
@@ -16,7 +24,14 @@ class Car {
     this.context.fillRect(xPos, yPos, this.carSize.xSize, this.carSize.ySize);
   }
 
-  moveX(variable) {
+  startAnimation(path) {
+    this.path = path;
+    if (!path[0]) return;
+    if (path[0].axis == 'Y') this.moveY(path[0].dir, path);
+    else this.moveX(path[0].dir, path);
+  }
+
+  moveX(variable, path) {
     this.xPos += variable;
     if ((this.xPos + variable) % 24 != 0) {
       // Clear previous frame
@@ -27,6 +42,9 @@ class Car {
 
       // Do again
       window.requestAnimFrame(() => { this.moveX(variable); });
+    } else {
+      this.path.splice(0, 1);
+      this.startAnimation(this.path);
     }
   }
 
@@ -41,6 +59,9 @@ class Car {
 
       // Do again
       window.requestAnimFrame(() => { this.moveY(variable); });
+    } else {
+      this.path.splice(0, 1);
+      this.startAnimation(this.path);
     }
   }
 }
