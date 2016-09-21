@@ -62,6 +62,9 @@ function run() {
 
   var astar = new Astar(parkingLot);
 
+  var startPos = parkingLot.getTile(0, 0);
+
+  astar.search(startPos);
 }
 run();
 
