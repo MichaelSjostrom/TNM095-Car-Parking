@@ -33,7 +33,7 @@ class Car {
     return;
   }
 
-  moveX(variable, path) {
+  moveX(variable) {
     this.xPos += variable;
     if ((this.xPos + variable) % 24 != 0) {
       // Clear previous frame
@@ -51,15 +51,13 @@ class Car {
 
       // Render car with new pos
       this.renderCar(this.xPos, this.yPos);
-      if (path && path.length) {
-        path.splice(0, 1);
-        this.startAnimation(path);
-      }
+
+      this.path.splice(0, 1);
+      this.startAnimation(this.path);
     }
   }
 
-  moveY(variable, path) {
-    console.log(path);
+  moveY(variable) {
     this.yPos += variable;
     if ((this.yPos + variable) % 24 != 0) {
       // Clear previous frame
@@ -77,11 +75,9 @@ class Car {
 
       // Render car with new pos
       this.renderCar(this.xPos, this.yPos);
-      console.log(path);
-      if (path && path.length) {
-        path.splice(0, 1);
-        this.startAnimation(path);
-      }
+      this.path.splice(0, 1);
+      this.startAnimation(this.path);
+
     }
   }
 }
