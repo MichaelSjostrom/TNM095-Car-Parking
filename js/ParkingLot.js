@@ -31,6 +31,17 @@ class ParkingLot{
     return this.map[x][y];
   }
 
+  reset() {
+    for (var i = 0; i < 20; i++) {
+      for (var j = 0; j < 24; j++) {
+        this.map[i][j].f = 0;
+        this.map[i][j].g = 0;
+        this.map[i][j].h = 0;
+        this.map[i][j].parent = null;
+      }
+    }
+  }
+
   getViewableTiles(x, y){
     var surrTiles = [];
 

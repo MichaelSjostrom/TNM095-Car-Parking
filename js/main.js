@@ -78,7 +78,7 @@ carCanvas.addEventListener('click', function(){
       // Down
       path.push({axis:'Y', dir:1});
     }
-    else if (i > 0 && result[i] < result[i] - 1) {
+    else if (result[i + 1] == result[i] - 1) {
       // Up
       path.push({axis:'Y', dir:-1});
     }
@@ -91,6 +91,7 @@ carCanvas.addEventListener('click', function(){
       path.push({axis:'X', dir:-1});
     }
   }
+
   car.startAnimation(path);
 });
 

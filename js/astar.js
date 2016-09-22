@@ -8,6 +8,8 @@ class Astar{
     var openList = [];
     var closedList = [];
 
+    parkingLot.reset();
+
     startPos.g = 0;
     openList.push(startPos);
 
@@ -16,7 +18,7 @@ class Astar{
     while (openList.length > 0) {
       var tempIndex = 0;
       for (var i = 0; i < openList.length; i++) {
-        if (openList[i] < openList[tempIndex]) tempIndex = i;
+        if (openList[i].f < openList[tempIndex].f) tempIndex = i;
       }
 
       var currNode = openList[tempIndex];
@@ -66,8 +68,7 @@ class Astar{
         }
       }
     }
-    //console.log(result);
-    return result;
+    return null;
   }
 
   heuristic(curr, end) {
