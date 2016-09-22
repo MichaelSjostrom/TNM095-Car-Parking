@@ -25,6 +25,7 @@ class Car {
     this.renderView(xPos, yPos);
   }
 
+  // Render the view of the driver
   renderView(xPos, yPos){
     this.context.fillStyle = "rgba(242,255,0,0.4)";
 
@@ -39,7 +40,6 @@ class Car {
 
     this.context.fillRect(xPos + 24, yPos - 24, 24, 24);
     this.context.fillRect(xPos - 24, yPos + 24, 24, 24);
-
   }
 
   startAnimation(path) {
