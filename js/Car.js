@@ -20,8 +20,26 @@ class Car {
   renderCar(xPos, yPos) {
     this.xPos = xPos;
     this.yPos = yPos;
-
+    this.context.fillStyle = 'blue';
     this.context.fillRect(xPos, yPos, this.carSize.xSize, this.carSize.ySize);
+    this.renderView(xPos, yPos);
+  }
+
+  renderView(xPos, yPos){
+    this.context.fillStyle = "rgba(242,255,0,0.4)";
+
+    this.context.fillRect(xPos + 24, yPos, 24, 24);
+    this.context.fillRect(xPos, yPos + 24, 24, 24);
+
+    this.context.fillRect(xPos - 24, yPos, 24, 24);
+    this.context.fillRect(xPos, yPos - 24, 24, 24);
+
+    this.context.fillRect(xPos + 24, yPos + 24, 24, 24);
+    this.context.fillRect(xPos - 24, yPos - 24, 24, 24);
+
+    this.context.fillRect(xPos + 24, yPos - 24, 24, 24);
+    this.context.fillRect(xPos - 24, yPos + 24, 24, 24);
+
   }
 
   startAnimation(path) {

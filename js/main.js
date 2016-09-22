@@ -34,13 +34,11 @@ function run() {
 
 	car = new Car(carCanvas);
 
-  car.renderCar(72, 72);
+  car.renderCar(0, 0);
 
   var mapCanvas = document.getElementsByTagName("canvas")[0];
   mapRenderer = new MapRenderer(mapCanvas, parkingLot.getMap);
   mapRenderer.draw();
-
-  astar = new Astar(parkingLot);
 
   //Listens when the mouse is moved over the canvas
   carCanvas.addEventListener('mousemove', function(evt){
@@ -62,11 +60,11 @@ function run() {
         tile.setTaken(true);
       }
       mapRenderer.update(tile);
-      astar.updateMap(parkingLot);
     }
     var startPos = {};
-    startPos.x = Math.ceil(car.getX / 24);
-    startPos.y = Math.ceil(car.getY / 24);
+    startPos.x = Math.floor(car.getX / tileSize);
+    startPos.y = Math.floor(car.getY / tileSize);
+    console.log(startPos);
 
     var startTile = parkingLot.getTile(startPos.x, startPos.y);
     var result = astar.search(startTile, tile);
@@ -81,7 +79,7 @@ function run() {
         // Down
         path.push({axis:'Y', dir:1});
       }
-      else if (result[i + 1] == result[i] - 1) {
+      else if (i > 0 && result[i] < result[i] - 1) {
         // Up
         path.push({axis:'Y', dir:-1});
       }
@@ -97,6 +95,8 @@ function run() {
 
     car.startAnimation(path);
   });
+
+  astar = new Astar(parkingLot);
 }
 run();
 
