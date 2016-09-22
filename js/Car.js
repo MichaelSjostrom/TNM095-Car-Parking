@@ -26,9 +26,11 @@ class Car {
 
   startAnimation(path) {
     this.path = path;
-    if (!path[0]) return;
+    if (!path.length) return;
     if (path[0].axis == 'Y') this.moveY(path[0].dir, path);
-    else this.moveX(path[0].dir, path);
+    else if (path[0].axis == 'X') this.moveX(path[0].dir, path);
+
+    return;
   }
 
   moveX(variable, path) {
@@ -43,12 +45,21 @@ class Car {
       // Do again
       window.requestAnimFrame(() => { this.moveX(variable); });
     } else {
-      this.path.splice(0, 1);
-      this.startAnimation(this.path);
+      this.xPos += variable;
+      // Clear previous frame
+      this.context.clearRect(0, 0, this.width, this.height);
+
+      // Render car with new pos
+      this.renderCar(this.xPos, this.yPos);
+      if (path && path.length) {
+        path.splice(0, 1);
+        this.startAnimation(path);
+      }
     }
   }
 
-  moveY(variable) {
+  moveY(variable, path) {
+    console.log(path);
     this.yPos += variable;
     if ((this.yPos + variable) % 24 != 0) {
       // Clear previous frame
@@ -60,8 +71,17 @@ class Car {
       // Do again
       window.requestAnimFrame(() => { this.moveY(variable); });
     } else {
-      this.path.splice(0, 1);
-      this.startAnimation(this.path);
+      this.yPos += variable;
+      // Clear previous frame
+      this.context.clearRect(0, 0, this.width, this.height);
+
+      // Render car with new pos
+      this.renderCar(this.xPos, this.yPos);
+      console.log(path);
+      if (path && path.length) {
+        path.splice(0, 1);
+        this.startAnimation(path);
+      }
     }
   }
 }
