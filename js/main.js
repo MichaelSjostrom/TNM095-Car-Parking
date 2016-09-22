@@ -19,8 +19,6 @@ var astar;
 
 var car;
 
-var followMouse = true;
-
 function run() {
 	// build layers
   var width = parkingLot.getMap.length;
@@ -44,10 +42,6 @@ function run() {
   carCanvas.addEventListener('mousemove', function(evt){
     mousePos = mouse.getMousePos(canvas, evt);
     var tile = parkingLot.getTile(mousePos.x, mousePos.y);
-
-    /*if(followMouse == true){
-      astar.search(startPos, tile);
-    }*/
   }, false);
 
   //Listens when a click occurs, used to to switch between free and taken parking spaces
@@ -126,4 +120,6 @@ window.onkeyup = function(e) {
     default:
       return;
   }
+
+
 }
