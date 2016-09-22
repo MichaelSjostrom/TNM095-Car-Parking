@@ -17,7 +17,7 @@ var mousePos;
 var mapRenderer;
 var astar;
 
-var car;
+var car, carCanvas;
 
 var followMouse = true;
 
@@ -30,21 +30,24 @@ function run() {
     canvasContainer.innerHTML += canvas;
     canvases.push(canvas);
   }
-	var carCanvas = document.getElementsByTagName('canvas')[1];
+	carCanvas = document.getElementsByTagName('canvas')[1];
 
 	car = new Car(carCanvas);
 
-  car.renderCar(72, 72);
+  car.renderCar(0, 0);
 
   var mapCanvas = document.getElementsByTagName("canvas")[0];
   mapRenderer = new MapRenderer(mapCanvas, parkingLot.getMap);
   mapRenderer.draw();
 
-  astar = new Astar(parkingLot);
+  astar = new Astar();
+  astar.updateMap(parkingLot);
+}
+run();
 
-  //Listens when the mouse is moved over the canvas
+//Listens when the mouse is moved over the canvas
   carCanvas.addEventListener('mousemove', function(evt){
-    mousePos = mouse.getMousePos(canvas, evt);
+    mousePos = mouse.getMousePos(carCanvas, evt);
     var tile = parkingLot.getTile(mousePos.x, mousePos.y);
 
     /*if(followMouse == true){
@@ -52,53 +55,57 @@ function run() {
     }*/
   }, false);
 
-  //Listens when a click occurs, used to to switch between free and taken parking spaces
-  carCanvas.addEventListener('click', function(){
-    var tile = parkingLot.getTile(mousePos.x, mousePos.y);
-    if(tile.getType == 'parking'){
-      if(tile.isTaken == true){
-          tile.setTaken(false);
-      } else {
-        tile.setTaken(true);
-      }
-      mapRenderer.update(tile);
-      astar.updateMap(parkingLot);
+//Listens when a click occurs, used to to switch between free and taken parking spaces
+carCanvas.addEventListener('click', function(){
+  var tile = parkingLot.getTile(mousePos.x, mousePos.y);
+  if(tile.getType == 'parking'){
+    if(tile.isTaken == true){
+        tile.setTaken(false);
+    } else {
+      tile.setTaken(true);
     }
-    var startPos = {};
-    startPos.x = Math.ceil(car.getX / 24);
-    startPos.y = Math.ceil(car.getY / 24);
+    mapRenderer.update(tile);
+  }
+  var startPos = {};
 
-    var startTile = parkingLot.getTile(startPos.x, startPos.y);
-    var result = astar.search(startTile, tile);
+  startPos.x = Math.ceil(car.getX / 24);
+  startPos.y = Math.ceil(car.getY / 24);
 
-    result.push(startTile.index);
-    result = result.reverse();
+  var startTile = parkingLot.getTile(startPos.x, startPos.y);
 
-    var path = [];
+  var result = astar.search(startTile, tile);
 
-    for (var i = 0; i < result.length - 1; i++) {
-      if (result[i + 1] == result[i] + 1) {
-        // Down
-        path.push({axis:'Y', dir:1});
-      }
-      else if (result[i + 1] == result[i] - 1) {
-        // Up
-        path.push({axis:'Y', dir:-1});
-      }
-      else if (result[i + 1] > result[i] + 1) {
-        // Right
-        path.push({axis:'X', dir:1});
-      }
-      else {
-        // Left
-        path.push({axis:'X', dir:-1});
-      }
+  console.log(result);
+
+  if (result[result.length - 1] != startTile.index) result.push(startTile.index);
+
+  result = result.reverse();
+
+  var path = [];
+
+  for (var i = 0; i < result.length - 1; i++) {
+    if (result[i + 1] == result[i] + 1) {
+      // Down
+      path.push({axis:'Y', dir:1});
     }
-
-    car.startAnimation(path);
-  });
-}
-run();
+    else if (result[i + 1] == result[i] - 1) {
+      // Up
+      path.push({axis:'Y', dir:-1});
+    }
+    else if (result[i + 1] == result[i] + 24) {
+      // Right
+      path.push({axis:'X', dir:1});
+    }
+    else {
+      // Left
+      path.push({axis:'X', dir:-1});
+    }
+  }
+  for (var i = 0; i < path.length; i++) {
+    console.log(path[i]);
+  }
+  car.startAnimation(path);
+});
 
 
 window.onkeyup = function(e) {
@@ -109,19 +116,19 @@ window.onkeyup = function(e) {
   switch (key) {
     // Negative x
     case 37:
-      car.moveX(-1);
+      car.startAnimation([{axis:'X', dir:-1}]);
       break;
     // Negative y
     case 38:
-      car.moveY(-1);
+      car.startAnimation([{axis:'Y', dir:-1}]);
       break;
     // Positive x
     case 39:
-      car.moveX(1);
+      car.startAnimation([{axis:'X', dir:1}]);
       break;
     // Positive y
     case 40:
-      car.moveY(1);
+      car.startAnimation([{axis:'Y', dir:1}]);
       break;
     default:
       return;

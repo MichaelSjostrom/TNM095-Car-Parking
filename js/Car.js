@@ -7,6 +7,7 @@ class Car {
     this.context.fillStyle = 'blue';
     this.carSize = { xSize: 22, ySize: 22 };
     this.isParked = false;
+    this.path = [];
   }
 
   get getX() {
@@ -26,7 +27,10 @@ class Car {
 
   startAnimation(path) {
     this.path = path;
-    if (!path.length) return;
+    if (!path.length) {
+      this.path = [];
+      return null;
+    }
     if (path[0].axis == 'Y') this.moveY(path[0].dir, path);
     else if (path[0].axis == 'X') this.moveX(path[0].dir, path);
 

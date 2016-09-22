@@ -27,6 +27,7 @@ class Astar{
           result.push(curr.index);
           curr = curr.parent;
         }
+        return result;
       }
 
       var index = openList.indexOf(currNode);
