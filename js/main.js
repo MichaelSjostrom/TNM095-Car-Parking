@@ -19,8 +19,6 @@ var astar;
 
 var car, carCanvas;
 
-var followMouse = true;
-
 function run() {
 	// build layers
   var width = parkingLot.getMap.length;
@@ -46,14 +44,10 @@ function run() {
 run();
 
 //Listens when the mouse is moved over the canvas
-  carCanvas.addEventListener('mousemove', function(evt){
-    mousePos = mouse.getMousePos(carCanvas, evt);
-    var tile = parkingLot.getTile(mousePos.x, mousePos.y);
-
-    /*if(followMouse == true){
-      astar.search(startPos, tile);
-    }*/
-  }, false);
+carCanvas.addEventListener('mousemove', function(evt){
+  mousePos = mouse.getMousePos(carCanvas, evt);
+  var tile = parkingLot.getTile(mousePos.x, mousePos.y);
+}, false);
 
 //Listens when a click occurs, used to to switch between free and taken parking spaces
 carCanvas.addEventListener('click', function(){
@@ -66,19 +60,15 @@ carCanvas.addEventListener('click', function(){
     }
     mapRenderer.update(tile);
   }
-  var startPos = {};
 
-  startPos.x = Math.ceil(car.getX / 24);
-  startPos.y = Math.ceil(car.getY / 24);
+  var startPos = {};
+  startPos.x = Math.floor(car.getX / 24);
+  startPos.y = Math.floor(car.getY / 24);
 
   var startTile = parkingLot.getTile(startPos.x, startPos.y);
-
   var result = astar.search(startTile, tile);
 
-  console.log(result);
-
-  if (result[result.length - 1] != startTile.index) result.push(startTile.index);
-
+  result.push(startTile.index);
   result = result.reverse();
 
   var path = [];
@@ -88,11 +78,11 @@ carCanvas.addEventListener('click', function(){
       // Down
       path.push({axis:'Y', dir:1});
     }
-    else if (result[i + 1] == result[i] - 1) {
+    else if (i > 0 && result[i] < result[i] - 1) {
       // Up
       path.push({axis:'Y', dir:-1});
     }
-    else if (result[i + 1] == result[i] + 24) {
+    else if (result[i + 1] > result[i] + 1) {
       // Right
       path.push({axis:'X', dir:1});
     }
@@ -100,9 +90,6 @@ carCanvas.addEventListener('click', function(){
       // Left
       path.push({axis:'X', dir:-1});
     }
-  }
-  for (var i = 0; i < path.length; i++) {
-    console.log(path[i]);
   }
   car.startAnimation(path);
 });

@@ -31,4 +31,50 @@ class ParkingLot{
     return this.map[x][y];
   }
 
+  getViewableTiles(x, y){
+    var surrTiles = [];
+
+    // West
+    if(this.map[x - 1] && this.map[x - 1][y]){
+        surrTiles.push(this.map[x - 1][y]);
+    }
+
+    // East
+    if(this.map[x + 1] && this.map[x + 1][y]){
+        surrTiles.push(this.map[x + 1][y]);
+    }
+
+    // North
+    if(this.map[x] && this.map[x][y - 1]){
+        surrTiles.push(this.map[x][y - 1]);
+    }
+
+    // South
+    if(this.map[x] && this.map[x][y + 1]){
+        surrTiles.push(this.map[x][y + 1]);
+    }
+
+    // NorthWest
+    if(this.map[x - 1] && this.map[x - 1][y - 1]){
+        surrTiles.push(this.map[x - 1][y - 1]);
+    }
+
+    // SouthWest
+    if(this.map[x - 1] && this.map[x - 1][y + 1]){
+        surrTiles.push(this.map[x - 1][y + 1]);
+    }
+
+    // NorthEast
+    if(this.map[x + 1] && this.map[x + 1][y - 1]){
+        surrTiles.push(this.map[x + 1][y - 1]);
+    }
+
+    // SouthEast
+    if(this.map[x + 1] && this.map[x + 1][y + 1]){
+        surrTiles.push(this.map[x + 1][y + 1]);
+    }
+
+    return surrTiles;
+  }
+
 }
