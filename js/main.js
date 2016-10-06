@@ -13,11 +13,26 @@ var bgRenderer;
 
 var parkingLot = new ParkingLot();
 var mouse = new Mouse();
+var state;
 var mousePos;
 var mapRenderer;
 var astar;
 
-var car, carCanvas;
+var car, newCar, carCanvas;
+
+function addCar() {
+  var cars = state.getCars;
+  if (cars.length < 2){
+    newCar = new Car(carCanvas);
+    newCar.renderCar(0, 0);
+    state.addCar(newCar);
+  } else {
+    console.log('add car did not work');
+  }
+}
+
+function removeCar() {
+}
 
 function run() {
 	// build layers
@@ -32,14 +47,12 @@ function run() {
 
 	car = new Car(carCanvas);
 
-  car.renderCar(0, 0);
-
   var mapCanvas = document.getElementsByTagName("canvas")[0];
   mapRenderer = new MapRenderer(mapCanvas, parkingLot.getMap);
   mapRenderer.draw();
 
-  astar = new Astar();
-  astar.updateMap(parkingLot);
+  state = new State(parkingLot);
+  state.addCar(car);
 }
 run();
 
@@ -60,38 +73,7 @@ carCanvas.addEventListener('click', function(){
     }
     mapRenderer.update(tile);
 
-    var startPos = {};
-    startPos.x = Math.floor(car.getX / 24);
-    startPos.y = Math.floor(car.getY / 24);
-
-    var startTile = parkingLot.getTile(startPos.x, startPos.y);
-    var result = astar.search(startTile, tile);
-
-    result.push(startTile.index);
-    result = result.reverse();
-
-    var path = [];
-
-    for (var i = 0; i < result.length - 1; i++) {
-      if (result[i + 1] == result[i] + 1) {
-        // Down
-        path.push({axis:'Y', dir:1});
-      }
-      else if (result[i + 1] == result[i] - 1) {
-        // Up
-        path.push({axis:'Y', dir:-1});
-      }
-      else if (result[i + 1] > result[i] + 1) {
-        // Right
-        path.push({axis:'X', dir:1});
-      }
-      else {
-        // Left
-        path.push({axis:'X', dir:-1});
-      }
-    }
-
-    car.startAnimation(path);
+    state.updateCar(tile);
   }
 });
 
