@@ -19,6 +19,11 @@ class Car {
     return this.yPos;
   }
 
+  clear() {
+    // Clear previous frame
+    this.context.clearRect(0, 0, this.width, this.height);
+  }
+
   renderCar(xPos, yPos) {
     this.xPos = xPos;
     this.yPos = yPos;
@@ -66,9 +71,6 @@ class Car {
         var car = this.cars[i];
         car.renderCar(car.getX, car.getY);
       }
-
-      // Render car with new pos
-      this.renderCar(this.xPos, this.yPos);
 
       // Do again
       window.requestAnimFrame(() => { this.moveX(variable); });

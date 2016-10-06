@@ -18,7 +18,7 @@ class State {
 
   removeCar() {
     this.cars.pop();
-    console.log(this.cars);
+    this.cars[0].clear();
     for (var i = 0; i < this.cars.length; i++) {
       var car = this.cars[i];
       car.renderCar(car.getX, car.getY);
