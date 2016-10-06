@@ -28,7 +28,7 @@ function addCar() {
     state.addCar(newCar);
     var tile = parkingLot.getTile(0, 22);
     var path = state.updateCar(newCar, tile, false);
-    newCar.startAnimation(path, state.getCars);
+    newCar.startAnimation(path, state.getCars, callback);
   } else {
     console.log('maximum of two cars allowed');
   }
@@ -81,9 +81,13 @@ function run() {
   car.xPos = tempX;
   car.yPos = tempY;
 
-  car.startAnimation(path, state.getCars);
+  car.startAnimation(path, state.getCars, callback);
 }
 run();
+
+function callback() {
+  console.log('car is done moving');
+}
 
 function getDirection(car) {
 

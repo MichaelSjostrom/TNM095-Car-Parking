@@ -50,12 +50,14 @@ class Car {
     this.context.fillRect(xPos - 24, yPos + 24, 24, 24);
   }
 
-  startAnimation(path, cars) {
+  startAnimation(path, cars, callback) {
+    this.callback = callback;
     this.cars = cars;
     this.path = path;
 
     if (!path.length) {
       this.path = [];
+      callback();
       return null;
     }
     if (path[0].axis == 'Y') this.moveY(path[0].dir, path);
@@ -86,7 +88,7 @@ class Car {
       }
 
       this.path.splice(0, 1);
-      this.startAnimation(this.path, this.cars);
+      this.startAnimation(this.path, this.cars, this.callback);
     }
   }
 
@@ -117,7 +119,7 @@ class Car {
       }
 
       this.path.splice(0, 1);
-      this.startAnimation(this.path, this.cars);
+      this.startAnimation(this.path, this.cars, this.callback);
     }
   }
 }
