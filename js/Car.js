@@ -8,6 +8,7 @@ class Car {
     this.carSize = { xSize: 22, ySize: 22 };
     this.isParked = false;
     this.path = [];
+    this.cars = [];
   }
 
   get getX() {
@@ -43,7 +44,8 @@ class Car {
     this.context.fillRect(xPos - 24, yPos + 24, 24, 24);
   }
 
-  startAnimation(path) {
+  startAnimation(path, cars) {
+    this.cars = cars;
     this.path = path;
     if (!path.length) {
       this.path = [];
@@ -60,6 +62,10 @@ class Car {
     if ((this.xPos + variable) % 24 != 0) {
       // Clear previous frame
       this.context.clearRect(0, 0, this.width, this.height);
+      for (var i = 0; i < this.cars.length; i++) {
+        var car = this.cars[i];
+        car.renderCar(car.getX, car.getY);
+      }
 
       // Render car with new pos
       this.renderCar(this.xPos, this.yPos);
@@ -70,12 +76,13 @@ class Car {
       this.xPos += variable;
       // Clear previous frame
       this.context.clearRect(0, 0, this.width, this.height);
-
-      // Render car with new pos
-      this.renderCar(this.xPos, this.yPos);
+      for (var i = 0; i < this.cars.length; i++) {
+        var car = this.cars[i];
+        car.renderCar(car.getX, car.getY);
+      }
 
       this.path.splice(0, 1);
-      this.startAnimation(this.path);
+      this.startAnimation(this.path, this.cars);
     }
   }
 
@@ -84,6 +91,11 @@ class Car {
     if ((this.yPos + variable) % 24 != 0) {
       // Clear previous frame
       this.context.clearRect(0, 0, this.width, this.height);
+
+      for (var i = 0; i < this.cars.length; i++) {
+        var car = this.cars[i];
+        car.renderCar(car.getX, car.getY);
+      }
 
       // Render car with new pos
       this.renderCar(this.xPos, this.yPos);
@@ -95,11 +107,13 @@ class Car {
       // Clear previous frame
       this.context.clearRect(0, 0, this.width, this.height);
 
-      // Render car with new pos
-      this.renderCar(this.xPos, this.yPos);
-      this.path.splice(0, 1);
-      this.startAnimation(this.path);
+      for (var i = 0; i < this.cars.length; i++) {
+        var car = this.cars[i];
+        car.renderCar(car.getX, car.getY);
+      }
 
+      this.path.splice(0, 1);
+      this.startAnimation(this.path, this.cars);
     }
   }
 }
