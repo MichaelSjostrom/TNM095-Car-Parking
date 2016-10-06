@@ -40,6 +40,8 @@ function run() {
 
   astar = new Astar();
   astar.updateMap(parkingLot);
+
+  walk();
 }
 run();
 
@@ -52,6 +54,7 @@ carCanvas.addEventListener('mousemove', function(evt){
 //Listens when a click occurs, used to to switch between free and taken parking spaces
 carCanvas.addEventListener('click', function(){
   var tile = parkingLot.getTile(mousePos.x, mousePos.y);
+  console.log(mousePos.x + " " + mousePos.y);
   if(tile.getType == 'parking'){
     if(tile.isTaken == true){
         tile.setTaken(false);
@@ -95,6 +98,16 @@ carCanvas.addEventListener('click', function(){
   car.startAnimation(path);
 });
 
+function walk() {
+  var startTile = parkingLot.getTile(0, 0);
+  var endTile = parkingLot.getTile(19, 22);
+  var result = astar.search(startTile, endTile);
+
+  result.push(startTile.getIndex);
+  result = result.reverse();
+
+  makePath(result);
+}
 
 window.onkeyup = function(e) {
   var key = e.keyCode ? e.keyCode : e.which;
