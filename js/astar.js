@@ -71,7 +71,8 @@ class Astar{
     return null;
   }
 
-  searchOpenSpot(startPos, end) {
+  searchOpenSpot(startPos, end, car) {
+
     var openList = [];
     var closedList = [];
 
@@ -104,7 +105,6 @@ class Astar{
       closedList.push(currNode);
 
       var neighbors = this.neighbors(currNode);
-
       // Find which neighbor is the best
       for (var i = 0; i < neighbors.length; i++) {
         var neighbor = neighbors[i];
@@ -113,8 +113,9 @@ class Astar{
         var isTaken2 = !neighbor.isTaken;
 
         if(isTaken2) {
+            console.log("ledig plats");
             end = neighbor;
-            console.log("new end" + end);
+            car.isParked = true;
         }
 
         if (index2 != -1 || isTaken) {

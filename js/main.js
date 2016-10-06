@@ -27,7 +27,7 @@ function addCar() {
     newCar.renderCar(0, 0);
     state.addCar(newCar);
     var tile = parkingLot.getTile(0, 22);
-    state.updateCar(newCar, tile);
+    state.updateCar(newCar, tile, false);
   } else {
     console.log('maximum of two cars allowed');
   }
@@ -51,7 +51,7 @@ function run() {
   }
 	carCanvas = document.getElementsByTagName('canvas')[1];
 
-	car = new Car(carCanvas, 'blue');
+	car = new Car(carCanvas, 'blue', 'down');
 
   var mapCanvas = document.getElementsByTagName("canvas")[0];
   mapRenderer = new MapRenderer(mapCanvas, parkingLot.getMap);
@@ -60,9 +60,55 @@ function run() {
   state = new State(parkingLot);
   state.addCar(car);
 
-  state.updateCar(car, parkingLot.getTile(19,0));
+  var path = [];
+  var tempX = car.getX;
+  var tempY = car.getY;
+
+  while(!car.isParked){
+
+    var tempTile = getDirection(car);
+    var temp = state.updateCar(car, tempTile, true);
+
+    // Updating car position after calculations have been made.
+    car.xPos = tempTile.getX*24;
+    car.yPos = tempTile.getY*24;
+
+    for(var i = 0; i < temp.length; i++){
+      path.push(temp[i]);
+    }
+  }
+  car.xPos = tempX;
+  car.yPos = tempY;
+
+  car.startAnimation(path, state.getCars);
 }
 run();
+
+function getDirection(car) {
+
+  var carPos = {};
+  carPos.x = Math.floor(car.getX / 24);
+  carPos.y = Math.floor(car.getY / 24);
+
+  var startTile = parkingLot.getTile(carPos.x, carPos.y);
+
+  var newTile = null;
+
+  if(car.prevStep && car.prevStep == 'down'){
+    if(startTile.getIndex > 455) {
+      newTile = parkingLot.getTile(0, carPos.y);
+      car.prevStep = 'left';
+    } else {
+      newTile = parkingLot.getTile(19, carPos.y);
+      car.prevStep = 'right';
+    }
+  } else {
+     newTile = parkingLot.getTile(carPos.x, carPos.y + 2);
+     car.prevStep = 'down';
+  }
+
+  return newTile;
+}
 
 //Listens when the mouse is moved over the canvas
 carCanvas.addEventListener('mousemove', function(evt){

@@ -25,15 +25,19 @@ class State {
     }
   }
 
-  updateCar(car, tile) {
+  updateCar(car, tile, find) {
     var startPos = {};
     startPos.x = Math.floor(car.getX / 24);
     startPos.y = Math.floor(car.getY / 24);
+    console.log(startPos.x, startPos.y);
+    var result;
 
     var startTile = parkingLot.getTile(startPos.x, startPos.y);
-    var result = astar.search(startTile, tile);
+    if(find)
+      result = astar.searchOpenSpot(startTile, tile, car);
+    else
+      result = astar.search(startTile, tile);
 
-    console.log(result);
     result.push(startTile.index);
     result = result.reverse();
 
@@ -58,7 +62,8 @@ class State {
       }
     }
 
-    car.startAnimation(path, this.cars);
+    return path;
+
   }
 
 }

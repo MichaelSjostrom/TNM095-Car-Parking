@@ -1,5 +1,5 @@
 class Car {
-  constructor(canvas, color) {
+  constructor(canvas, color, prevStep) {
     this.canvas = canvas;
     this.width = canvas.getAttribute('width');
     this.height = canvas.getAttribute('height');
@@ -9,6 +9,7 @@ class Car {
     this.isParked = false;
     this.path = [];
     this.cars = [];
+    this.prevStep = prevStep;
   }
 
   get getX() {
@@ -52,6 +53,7 @@ class Car {
   startAnimation(path, cars) {
     this.cars = cars;
     this.path = path;
+
     if (!path.length) {
       this.path = [];
       return null;
