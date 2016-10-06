@@ -71,6 +71,80 @@ class Astar{
     return null;
   }
 
+  searchOpenSpot(startPos, end) {
+    var openList = [];
+    var closedList = [];
+
+    parkingLot.reset();
+
+    startPos.g = 0;
+    openList.push(startPos);
+
+    var result = [];
+
+    while (openList.length > 0) {
+      var tempIndex = 0;
+      for (var i = 0; i < openList.length; i++) {
+        if (openList[i].f < openList[tempIndex].f) tempIndex = i;
+      }
+
+      var currNode = openList[tempIndex];
+
+      if (currNode.getIndex == end.getIndex) {
+        var curr = currNode;
+        while (curr.parent) {
+          result.push(curr.index);
+          curr = curr.parent;
+        }
+        return result;
+      }
+
+      var index = openList.indexOf(currNode);
+      if (index != -1) openList.splice(index, 1);
+      closedList.push(currNode);
+
+      var neighbors = this.neighbors(currNode);
+
+      // Find which neighbor is the best
+      for (var i = 0; i < neighbors.length; i++) {
+        var neighbor = neighbors[i];
+        var index2 = closedList.indexOf(neighbor);
+        var isTaken = neighbor.isTaken && neighbor.type == 'parking';
+        var isTaken2 = !neighbor.isTaken;
+
+        if(isTaken2) {
+            end = neighbor;
+            console.log("new end" + end);
+        }
+
+        if (index2 != -1 || isTaken) {
+          //console.log('this is not a valid node');
+          continue;
+        }
+
+        var g = currNode.g + 1;
+        var gIsBest = false;
+
+        var index3 = openList.indexOf(neighbor);
+
+        if (index3 == -1) {
+          gIsBest = true;
+          neighbor.h = this.heuristic(neighbor, end);
+          openList.push(neighbor);
+        } else if (g < neighbor.g) {
+          gIsBest = true;
+        }
+
+        if (gIsBest) {
+          neighbor.parent = currNode;
+          neighbor.g = g;
+          neighbor.f = neighbor.g + neighbor.h;
+        }
+      }
+    }
+    return null;
+  }
+
   heuristic(curr, end) {
     var x = Math.abs(curr.getX - end.getX);
     var y = Math.abs(curr.getY - end.getY);

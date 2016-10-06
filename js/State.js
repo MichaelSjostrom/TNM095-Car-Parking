@@ -33,6 +33,7 @@ class State {
     var startTile = parkingLot.getTile(startPos.x, startPos.y);
     var result = astar.search(startTile, tile);
 
+    console.log(result);
     result.push(startTile.index);
     result = result.reverse();
 

@@ -28,7 +28,7 @@ class Car {
     this.xPos = xPos;
     this.yPos = yPos;
     this.context.fillStyle = this.color;
-    this.context.fillRect(xPos, yPos, this.carSize.xSize, this.carSize.ySize);
+    this.context.fillRect(xPos + 1, yPos + 1, this.carSize.xSize, this.carSize.ySize);
     this.renderView(xPos, yPos);
   }
 

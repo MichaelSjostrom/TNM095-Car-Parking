@@ -12,8 +12,8 @@ class ParkingLot{
       result[i] = [];
       for( var j = 0; j < 24; j++){
         if(j%2 != 0 &&i !== 0 && i !== 19){
-          //var random = Math.floor((Math.random() * 24) + j) > j ? true : false;
-          var random = Math.floor((Math.random() * 24) + 1) < j ? true : false;
+          var random = Math.floor((Math.random() * 24) + j) > j ? true : false;
+          //var random = Math.floor((Math.random() * 24) + 1) < j ? true : false;
 
           result[i][j] = new Tile(random, 'parking', indexCounter, i, j);
         } else {
