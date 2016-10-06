@@ -32,6 +32,10 @@ function addCar() {
 }
 
 function removeCar() {
+  var cars = state.getCars;
+  if (cars.length > 1) {
+    state.removeCar();
+  }
 }
 
 function run() {

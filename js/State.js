@@ -16,6 +16,15 @@ class State {
     car.renderCar(0, 0);
   }
 
+  removeCar() {
+    this.cars.pop();
+    console.log(this.cars);
+    for (var i = 0; i < this.cars.length; i++) {
+      var car = this.cars[i];
+      car.renderCar(car.getX, car.getY);
+    }
+  }
+
   updateCar(tile) {
     var startPos = {};
     startPos.x = Math.floor(car.getX / 24);
@@ -48,8 +57,7 @@ class State {
       }
     }
 
-    car.startAnimation(path);
-
+    car.startAnimation(path, this.cars);
   }
 
 }
