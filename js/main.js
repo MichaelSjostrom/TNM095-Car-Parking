@@ -76,8 +76,8 @@ carCanvas.addEventListener('click', function(){
       tile.setTaken(true);
     }
     mapRenderer.update(tile);
-
-    state.updateCar(tile);
+    if (!tile.isTaken)
+      state.updateCar(tile);
   }
 });
 
