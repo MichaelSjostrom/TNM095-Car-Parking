@@ -27,7 +27,8 @@ function addCar() {
     newCar.renderCar(0, 0);
     state.addCar(newCar);
     var tile = parkingLot.getTile(0, 22);
-    state.updateCar(newCar, tile, false);
+    var path = state.updateCar(newCar, tile, false);
+    newCar.startAnimation(path, state.getCars);
   } else {
     console.log('maximum of two cars allowed');
   }
