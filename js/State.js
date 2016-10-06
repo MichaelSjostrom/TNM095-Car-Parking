@@ -25,7 +25,7 @@ class State {
     }
   }
 
-  updateCar(tile) {
+  updateCar(car, tile) {
     var startPos = {};
     startPos.x = Math.floor(car.getX / 24);
     startPos.y = Math.floor(car.getY / 24);

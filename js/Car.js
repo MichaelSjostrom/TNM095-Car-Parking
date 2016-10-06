@@ -1,10 +1,10 @@
 class Car {
-  constructor(canvas) {
+  constructor(canvas, color) {
     this.canvas = canvas;
     this.width = canvas.getAttribute('width');
     this.height = canvas.getAttribute('height');
     this.context = canvas.getContext('2d');
-    this.context.fillStyle = 'blue';
+    this.color = color;
     this.carSize = { xSize: 22, ySize: 22 };
     this.isParked = false;
     this.path = [];
@@ -27,7 +27,7 @@ class Car {
   renderCar(xPos, yPos) {
     this.xPos = xPos;
     this.yPos = yPos;
-    this.context.fillStyle = 'blue';
+    this.context.fillStyle = this.color;
     this.context.fillRect(xPos, yPos, this.carSize.xSize, this.carSize.ySize);
     this.renderView(xPos, yPos);
   }

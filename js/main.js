@@ -23,9 +23,11 @@ var car, newCar, carCanvas;
 function addCar() {
   var cars = state.getCars;
   if (cars.length < 2){
-    newCar = new Car(carCanvas);
+    newCar = new Car(carCanvas, 'red');
     newCar.renderCar(0, 0);
     state.addCar(newCar);
+    var tile = parkingLot.getTile(0, 22);
+    state.updateCar(newCar, tile);
   } else {
     console.log('maximum of two cars allowed');
   }
@@ -49,7 +51,7 @@ function run() {
   }
 	carCanvas = document.getElementsByTagName('canvas')[1];
 
-	car = new Car(carCanvas);
+	car = new Car(carCanvas, 'blue');
 
   var mapCanvas = document.getElementsByTagName("canvas")[0];
   mapRenderer = new MapRenderer(mapCanvas, parkingLot.getMap);
@@ -77,7 +79,7 @@ carCanvas.addEventListener('click', function(){
     }
     mapRenderer.update(tile);
     if (!tile.isTaken)
-      state.updateCar(tile);
+      state.updateCar(car, tile);
   }
 });
 
