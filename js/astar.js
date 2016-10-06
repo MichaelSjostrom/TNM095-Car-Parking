@@ -113,13 +113,11 @@ class Astar{
         var isTaken2 = !neighbor.isTaken;
 
         if(isTaken2) {
-            console.log("ledig plats");
             end = neighbor;
             car.isParked = true;
         }
 
         if (index2 != -1 || isTaken) {
-          //console.log('this is not a valid node');
           continue;
         }
 

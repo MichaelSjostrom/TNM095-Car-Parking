@@ -29,7 +29,6 @@ class State {
     var startPos = {};
     startPos.x = Math.floor(car.getX / 24);
     startPos.y = Math.floor(car.getY / 24);
-    console.log(startPos.x, startPos.y);
     var result;
 
     var startTile = parkingLot.getTile(startPos.x, startPos.y);
