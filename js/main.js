@@ -27,7 +27,7 @@ function addCar() {
     newCar.renderCar(0, 0);
     state.addCar(newCar);
   } else {
-    console.log('add car did not work');
+    console.log('maximum of two cars allowed');
   }
 }
 
