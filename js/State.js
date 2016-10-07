@@ -25,6 +25,10 @@ class State {
     }
   }
 
+  updateParkingLot(parkingLot) {
+    this.parkingLot = parkingLot;
+  }
+
   updateCar(car, tile, find) {
     var startPos = {};
     startPos.x = Math.floor(car.getX / 24);

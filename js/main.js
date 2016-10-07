@@ -25,13 +25,12 @@ var car, newCar, carCanvas;
 function addCar() {
   var cars = state.getCars;
   if (cars.length < 2){
-    newCar = new Car(carCanvas, 'red');
-    newCar.isGoing = 'up';
+    newCar = new Car(carCanvas, 'red', 5);
     newCar.renderCar(0, 0);
     state.addCar(newCar);
     var tile = parkingLot.getTile(0, 22);
     var path = state.updateCar(newCar, tile, false);
-
+    newCar.prevStep = 'down';
     newCar.startAnimation(path, state.getCars, callback);
     newCar.timer = setInterval(function () {
         document.getElementById("seconds2").innerHTML = pad(++sec2 % 60);
@@ -60,8 +59,9 @@ function run() {
   }
 	carCanvas = document.getElementsByTagName('canvas')[1];
 
-	car = new Car(carCanvas, 'blue', 'down');
-  car.isGoing = 'down';
+	car = new Car(carCanvas, 'blue', 9);
+  car.prevStep = 'down';
+
 
   car.timer = setInterval(function () {
       document.getElementById("seconds").innerHTML = pad(++sec % 60);
@@ -81,10 +81,10 @@ run();
 
 function callback(car) {
 
-  clearInterval(car.timer);
-
   if(!car.isParked) {
     animateCar(car);
+  } else {
+    clearInterval(car.timer);
   }
 }
 
@@ -96,6 +96,7 @@ function animateCar(car) {
     while(!car.isParked){
 
       var tempTile = getDirection(car);
+
       var temp = state.updateCar(car, tempTile, true);
 
       // Updating car position after calculations have been made.
@@ -108,6 +109,9 @@ function animateCar(car) {
     }
     car.xPos = tempX;
     car.yPos = tempY;
+
+    console.log('startingAnimation');
+    console.log(path);
 
     car.startAnimation(path, state.getCars, callback);
 }
@@ -123,6 +127,7 @@ function getDirection(car) {
   var newTile = null;
 
   if(car.prevStep && (car.prevStep == 'down' || car.prevStep == 'up')){
+    // Move left and right
     if(startTile.getIndex > 455) {
       newTile = parkingLot.getTile(0, carPos.y);
       car.prevStep = 'left';
@@ -131,14 +136,32 @@ function getDirection(car) {
       car.prevStep = 'right';
     }
   } else {
-    if (car.isGoing == 'down') {
-       newTile = parkingLot.getTile(carPos.x, carPos.y + 2);
-       car.prevStep = 'up';
-     } else {
-        newTile = parkingLot.getTile(carPos.x, carPos.y - 2);
+    // TODO: ADD MAX DIST IN HERE
+    if (carPos.y > 0 && carPos.y < 22) {
+      // Not in one of the extremities
+      if (car.isGoing == 'down') {
+        newTile = parkingLot.getTile(carPos.x, carPos.y + 2);
         car.prevStep = 'down';
-     }
+      } else {
+        newTile = parkingLot.getTile(carPos.x, carPos.y - 2);
+        car.prevStep = 'up';
+      }
+    } else {
+      console.log('in one of the extremities');
+      // In one of the extremities
+      if (carPos.y == 0 && (car.prevStep == 'right' || car.prevStep == 'left')) {
+        newTile = parkingLot.getTile(carPos.x, carPos.y + 2);
+        car.prevStep = 'down';
+        car.isGoing = 'down';
+      } else if (carPos.y == 22 && (car.prevStep == 'right' || car.prevStep == 'left')) {
+        newTile = parkingLot.getTile(carPos.x, carPos.y - 2);
+        car.prevStep = 'up';
+        car.isGoing = 'up';
+      }
+    }
   }
+
+  console.log(newTile);
 
   return newTile;
 }
@@ -160,8 +183,15 @@ carCanvas.addEventListener('click', function(){
       tile.setTaken(true);
     }
     mapRenderer.update(tile);
-    if (!tile.isTaken)
-      state.updateCar(car, tile);
+    if (!tile.isTaken) {
+      var cars = state.getCars;
+      state.updateParkingLot(parkingLot);
+      for (var i = 0; i < cars.length; i++) {
+        cars[i].stopCar = true;
+        var path = state.updateCar(cars[i], getDirection(cars[i]), true);
+        animateCar(cars[i]);
+      }
+    }
   }
 });
 
