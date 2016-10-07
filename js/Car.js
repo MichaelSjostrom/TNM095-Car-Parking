@@ -1,5 +1,5 @@
 class Car {
-  constructor(canvas, color, prevStep) {
+  constructor(canvas, color, prevStep, person) {
     this.canvas = canvas;
     this.width = canvas.getAttribute('width');
     this.height = canvas.getAttribute('height');
@@ -10,6 +10,7 @@ class Car {
     this.path = [];
     this.cars = [];
     this.prevStep = prevStep;
+    this.person = person;
   }
 
   get getX() {

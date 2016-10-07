@@ -1,5 +1,5 @@
 class Person {
-  constructor(canvas, color, prevStep) {
+  constructor(canvas, color) {
     this.canvas = canvas;
     this.width = canvas.getAttribute('width');
     this.height = canvas.getAttribute('height');
@@ -8,6 +8,7 @@ class Person {
     this.personSize = { xSize: 6, ySize: 6 };
     this.path = [];
     this.persons = [];
+    this.isFinished = false;
   }
 
   get getX() {
@@ -16,6 +17,11 @@ class Person {
 
   get getY() {
     return this.yPos;
+  }
+
+  setPos(xPos, yPos) {
+    this.xPos = xPos;
+    this.yPos = yPos;
   }
 
   clear() {
@@ -30,14 +36,15 @@ class Person {
     this.context.fillRect(xPos + 9, yPos + 9, this.personSize.xSize, this.personSize.ySize);
   }
 
-  startAnimation(path, persons, callback) {
-    this.callback = callback;
+  startAnimation(path, persons, callbackPerson) {
     this.persons = persons;
     this.path = path;
+    this.callbackPerson = callbackPerson;
 
     if (!path.length) {
+      this.isFinished = true;
       this.path = [];
-      callback(this);
+      callbackPerson();
       return null;
     }
     if (path[0].axis == 'Y') this.moveY(path[0].dir, path);
@@ -53,7 +60,7 @@ class Person {
       this.context.clearRect(0, 0, this.width, this.height);
       for (var i = 0; i < this.persons.length; i++) {
         var person = this.persons[i];
-        persons.renderPerson(person.getX, person.getY);
+        person.renderPerson(person.getX, person.getY);
       }
 
       // Do again
@@ -68,7 +75,7 @@ class Person {
       }
 
       this.path.splice(0, 1);
-      this.startAnimation(this.path, this.persons, this.callback);
+      this.startAnimation(this.path, this.persons, this.callbackPerson);
     }
   }
 
@@ -80,7 +87,7 @@ class Person {
 
       for (var i = 0; i < this.persons.length; i++) {
         var person = this.persons[i];
-        person.rednerPerson(person.getX, person.getY);
+        person.renderPerson(person.getX, person.getY);
       }
 
       // Render person with new pos
@@ -99,7 +106,7 @@ class Person {
       }
 
       this.path.splice(0, 1);
-      this.startAnimation(this.path, this.persons, this.callback);
+      this.startAnimation(this.path, this.persons, this.callbackPerson);
     }
   }
 }

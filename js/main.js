@@ -25,10 +25,12 @@ var car, newCar, carCanvas;
 function addCar() {
   var cars = state.getCars;
   if (cars.length < 2){
-    newCar = new Car(carCanvas, 'red');
+    var newPerson = new Person(personCanvas, 'red');
+    newCar = new Car(carCanvas, 'red', 'down', newPerson);
     newCar.isGoing = 'up';
     newCar.renderCar(0, 0);
     state.addCar(newCar);
+    state.addPerson(newPerson);
     var tile = parkingLot.getTile(0, 22);
     var path = state.updateCar(newCar, tile, false);
 
@@ -53,14 +55,16 @@ function run() {
 	// build layers
   var width = parkingLot.getMap.length;
   var height = parkingLot.getMap[0].length;
-  for (var i = 0, len = 2; i < len; i++) {
+  for (var i = 0, len = 3; i < len; i++) {
     var canvas = '<canvas width="'+(width * tileSize)+'" height="'+(height * tileSize)+'" z-index="'+i+'" class="gamecanvas canvas'+ i +'" style="position: absolute;"/>';
     canvasContainer.innerHTML += canvas;
     canvases.push(canvas);
   }
 	carCanvas = document.getElementsByTagName('canvas')[1];
+  personCanvas = document.getElementsByTagName('canvas')[2];
 
-	car = new Car(carCanvas, 'blue', 'down');
+  var person = new Person(personCanvas, 'blue');
+	car = new Car(carCanvas, 'blue', 'down', person);
   car.isGoing = 'down';
 
   car.timer = setInterval(function () {
@@ -72,8 +76,10 @@ function run() {
   mapRenderer = new MapRenderer(mapCanvas, parkingLot.getMap);
   mapRenderer.draw();
 
+
   state = new State(parkingLot);
   state.addCar(car);
+  state.addPerson(person);
 
   animateCar(car);
 }
@@ -81,10 +87,30 @@ run();
 
 function callback(car) {
 
-  clearInterval(car.timer);
+  //clearInterval(car.timer);
 
   if(!car.isParked) {
     animateCar(car);
+  } else {
+    animatePerson(car);
+  }
+}
+
+function animatePerson(car) {
+  var tempTile = parkingLot.getTile(0, 0);
+  var personPath = state.updateCar(car, tempTile, false);
+
+  car.person.setPos(car.getX, car.getY);
+  car.person.startAnimation(personPath, state.getPersons, callbackPerson);
+}
+
+function callbackPerson() {
+  var cars = state.getCars;
+  var tempCar;
+  for(var i = 0; i < cars.length; i++) {
+    tempCar = cars[i];
+    if(tempCar.person.isFinished)
+      clearInterval(tempCar.timer);
   }
 }
 
