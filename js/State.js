@@ -2,6 +2,7 @@
 class State {
   constructor(parkingLot) {
     this.cars = [];
+    this.persons = [];
     this.parkingLot = parkingLot;
     astar = new Astar();
     astar.updateMap(this.parkingLot);
@@ -11,9 +12,17 @@ class State {
     return this.cars;
   }
 
+  get getPersons() {
+    return this.persons;
+  }
+
   addCar(car) {
     this.cars.push(car);
     car.renderCar(0, 0);
+  }
+
+  addPerson(person){
+    this.persons.push(person);
   }
 
   removeCar() {
