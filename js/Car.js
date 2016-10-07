@@ -57,7 +57,7 @@ class Car {
 
     if (!path.length) {
       this.path = [];
-      callback();
+      callback(this);
       return null;
     }
     if (path[0].axis == 'Y') this.moveY(path[0].dir, path);

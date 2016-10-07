@@ -6,9 +6,13 @@
 <body style="margin: 0;">
   <div class="container">
   </div>
-  <div class="options">
-    <button type="button" style="float:right" onClick='addCar()'>Add Car</button>
-    <button type="button" style="float:right" onClick='removeCar()'>Remove Car</button>
+  <div class="options" style="float:right">
+    <span id="minutes2">00</span>:<span id="seconds2">00</span>
+
+    <button type="button" onClick='addCar()'>Add Car</button>
+    <button type="button" onClick='removeCar()'>Remove Car</button>
+
+    <span id="minutes">00</span>:<span id="seconds">00</span>
   </div>
   <script src="js/State.js"></script>
   <script src="js/Astar.js"></script>
