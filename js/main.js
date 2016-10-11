@@ -97,7 +97,7 @@ function callback(car) {
 }
 
 function animatePerson(car) {
-  var tempTile = parkingLot.getTile(0, 0);
+  var tempTile = parkingLot.getTile(9, 22);
   var personPath = state.updateCar(car, tempTile, false);
 
   car.person.setPos(car.getX, car.getY);
