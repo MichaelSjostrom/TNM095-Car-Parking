@@ -25,20 +25,17 @@ class MapRenderer{
 			row.forEach(function(tile,j){
 				if(tile.getType == 'road' ){
 					self.context.fillStyle = self.colorDriveWay;
-					self.drawTile(i, j);
 				}
 				else if(tile.getType == 'parking'){
 					if(tile.isTaken == true){
 						self.context.fillStyle = self.colorTaken;
-						self.drawTile(i,j);
 					}
 					else if(tile.isTaken == false){
 						self.context.fillStyle = self.colorOpen;
-						self.drawTile(i,j);
 					}
 						self.drawParkingLines(i, j);
 				}
-
+				self.drawTile(i, j);
 				self.context.fillText(tile.getIndex, i*self.tileSize + 3 , j*self.tileSize + 12);
 
 			});
@@ -51,13 +48,22 @@ class MapRenderer{
 		this.context.fillRect(x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize);
 	}
 
-	//Draws an up-side-down "L" with strokes och each parking space
+	//Draws a stroke in the beginning of each parking place.
 	drawParkingLines(x, y){
 		this.context.beginPath();
 		this.context.moveTo(x * this.tileSize , y * this.tileSize + this.tileSize);
 		this.context.lineTo(x * this.tileSize, y * this.tileSize);
-		this.context.lineTo(x * this.tileSize + this.tileSize, y * this.tileSize);
 		this.context.stroke();
+
+		var lastParkingSpace = this.map.length - 3;
+
+		// Draws strokes for the last column of parking spaces.
+		if(x > lastParkingSpace) {
+			this.context.beginPath();
+			this.context.moveTo(x * this.tileSize + this.tileSize, y * this.tileSize + this.tileSize);
+			this.context.lineTo(x * this.tileSize + this.tileSize, y * this.tileSize);
+			this.context.stroke();
+		}
 	}
 
 
