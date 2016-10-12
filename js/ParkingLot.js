@@ -7,13 +7,44 @@ class ParkingLot{
   createParkingLot(){
     var result = [];
     var indexCounter = 0;
+    var opp = [];
+    for (var i = 0; i < 24; i++) {
+      opp.push()
+    }
+    opp.push(0.05);
+    opp.push(0.05);
+    opp.push(0.05);
+    opp.push(0.1);
+    opp.push(0.1);
+    opp.push(0.1);
+    opp.push(0.15);
+    opp.push(0.15);
+    opp.push(0.15);
+    opp.push(0.2);
+    opp.push(0.2);
+    opp.push(0.2);
+    opp.push(0.3);
+    opp.push(0.3);
+    opp.push(0.3);
+    opp.push(0.4);
+    opp.push(0.4);
+    opp.push(0.4);
+    opp.push(0.45);
+    opp.push(0.45);
+    opp.push(0.45);
+    opp.push(0.5);
+    opp.push(0.5);
+    opp.push(0.5);
+
+    opp.reverse();
+
 
     for( var i = 0; i < 20; i++){
       result[i] = [];
       for( var j = 0; j < 24; j++){
         if(j%2 != 0 &&i !== 0 && i !== 19){
-          var random = Math.floor((Math.random() * 24) + j) > j ? true : false;
-          //var random = Math.floor((Math.random() * 24) + 1) < j ? true : false;
+          var random = Math.random() > opp[j] ? true : false;
+          //var random = Math.floor((Math.random() * 24) + 1) < (j + 1) ? true : false;
 
           result[i][j] = new Tile(random, 'parking', indexCounter, i, j);
         } else {

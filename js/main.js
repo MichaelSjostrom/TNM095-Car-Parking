@@ -5,6 +5,12 @@ window.requestAnimFrame = (function(callBack) {
       };
 })();
 
+window.requestAnimFramePerson = (function(callback) {
+  return function(callback) {
+        window.setTimeout(callback, 20);
+      };
+})();
+
 var tileSize = 24;
 var body = document.getElementsByTagName('body')[0];
 var canvasContainer = document.getElementsByClassName('container')[0]
@@ -80,6 +86,8 @@ function run() {
   state = new State(parkingLot);
   state.addCar(car);
   state.addPerson(person);
+
+  addCar();
 
   animateCar(car);
 }
@@ -170,13 +178,13 @@ function getDirection(car) {
 }
 
 //Listens when the mouse is moved over the canvas
-carCanvas.addEventListener('mousemove', function(evt){
-  mousePos = mouse.getMousePos(carCanvas, evt);
+personCanvas.addEventListener('mousemove', function(evt){
+  mousePos = mouse.getMousePos(personCanvas, evt);
   var tile = parkingLot.getTile(mousePos.x, mousePos.y);
 }, false);
 
 //Listens when a click occurs, used to to switch between free and taken parking spaces
-carCanvas.addEventListener('click', function(){
+personCanvas.addEventListener('click', function(){
   var tile = parkingLot.getTile(mousePos.x, mousePos.y);
   console.log(mousePos.x + " " + mousePos.y);
   if(tile.getType == 'parking'){

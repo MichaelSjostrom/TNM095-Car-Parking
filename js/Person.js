@@ -64,7 +64,7 @@ class Person {
       }
 
       // Do again
-      window.requestAnimFrame(() => { this.moveX(variable); });
+      window.requestAnimFramePerson(() => { this.moveX(variable); });
     } else {
       this.xPos += variable;
       // Clear previous frame
@@ -94,7 +94,7 @@ class Person {
       this.renderPerson(this.xPos, this.yPos);
 
       // Do again
-      window.requestAnimFrame(() => { this.moveY(variable); });
+      window.requestAnimFramePerson(() => { this.moveY(variable); });
     } else {
       this.yPos += variable;
       // Clear previous frame
